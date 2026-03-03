@@ -13,12 +13,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Chrome
+      - name: Install Google Chrome
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y chromium-browser chromium-chromedriver \
-            libglib2.0-0 libnss3 libfontconfig1 libx11-6 \
-            libxcomposite1 libxdamage1 libxext6 libxrandr2
+          wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+          google-chrome --version
+
+      - name: Install Chromedriver
+        run: |
+          pip install webdriver-manager
 
       - uses: actions/setup-python@v5
         with:
@@ -27,12 +30,10 @@ jobs:
       - name: Install packages
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install selenium psutil pyvirtualdisplay
+          python3 -m pip install selenium psutil pyvirtualdisplay webdriver-manager
 
       - name: Run script
-        run: |
-          export PATH="/usr/bin:$PATH"
-          timeout 19800 python3 cms_prosec.py || true
+        run: timeout 19800 python3 cms_prosec.py || true
 
       - name: Upload logs
         if: always()
