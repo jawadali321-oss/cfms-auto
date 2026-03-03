@@ -1,0 +1,29 @@
+name: CFMS Automation
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */4 * * *'
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Chrome
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y chromium-browser chromium-chromedriver libglib2.0-0 libnss3 libfontconfig1 libx11-6 libxcomposite1 libxdamage1 libxext6 libxrandr2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install selenium psutil pyvirtualdisplay
+      - name: Run script
+        run: |
+          export PATH="/usr/bin:$PATH"
+          timeout 19800 python cms_prosec.py || true
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ github.run_number }}
+          path: "*.log"
