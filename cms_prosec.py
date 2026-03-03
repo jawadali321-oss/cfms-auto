@@ -217,7 +217,7 @@ class BrowserManager:
                 logging.info(f"Starting browser (attempt {attempt + 1}/3)")
                 fast_sleep(1)
                 
-                opts = Options()
+                opts = Options()  # github-actions-fix
                 
                 # Use a SEPARATE dedicated profile for automation
                 # This won't touch your regular Chrome
