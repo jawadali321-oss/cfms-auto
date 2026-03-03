@@ -233,7 +233,7 @@ class BrowserManager:
                 opts.add_argument("--disable-software-rasterizer")
                 opts.add_argument("--disable-extensions")
                 opts.add_argument("--disable-dev-tools")
-                                opts.add_experimental_option('excludeSwitches', ['enable-logging'])
+                                                opts.add_experimental_option('excludeSwitches', ['enable-logging'])
                 opts.add_experimental_option("detach", False)
                 
                 logging.info("🚀 Starting HEADLESS browser - completely invisible!")
