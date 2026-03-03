@@ -221,7 +221,8 @@ class BrowserManager:
                 
                 # Use a SEPARATE dedicated profile for automation
                 # This won't touch your regular Chrome
-                opts.add_argument("--user-data-dir=/home/control/.selenium-cfms-profile")
+                import tempfile as _tf; _tmp = _tf.mkdtemp()
+                opts.add_argument(f"--user-data-dir={_tmp}")
                 
                 # ALWAYS run in headless mode - completely invisible
                 opts.add_argument("--headless=new")
