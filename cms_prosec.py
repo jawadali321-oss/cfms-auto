@@ -21,14 +21,14 @@ VIRTUAL_DISPLAY_SIZE = (1920, 1080)
 logging.basicConfig(
     level=logging.INFO, 
     format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[logging.FileHandler(os.path.expanduser("~/Documents/cfms_automation.log")), logging.StreamHandler()]
+    handlers=[logging.FileHandler("cfms_automation.log"), logging.StreamHandler()]
 )
 
-TO_BE_FILLED = os.path.expanduser("~/Documents/to_be_filled.txt")
-FILLED_ENTRIES = os.path.expanduser("~/Documents/filled_entries.txt")
-ERROR_LOG = os.path.expanduser("~/Documents/cfms_errors.log")
-INVALID_CASES = os.path.expanduser("~/Documents/invalidcases.txt")
-NO_FINAL_ORDER_CASES = os.path.expanduser("~/Documents/no_final_order_cases.txt")
+TO_BE_FILLED = "to_be_filled.txt"
+FILLED_ENTRIES = "filled_entries.txt"
+ERROR_LOG = "cfms_errors.log"
+INVALID_CASES = "invalidcases.txt"
+NO_FINAL_ORDER_CASES = "no_final_order_cases.txt"
 
 MAX_RETRIES_PER_CASE = 5
 MAX_ELEMENT_RETRIES = 3
@@ -128,7 +128,7 @@ def timeout_handler(signum, frame):
 
 def sync_to_gdrive():
     try:
-        local_file = os.path.expanduser("~/GoogleDrive/STATUS.txt")
+        local_file = "STATUS.txt"
         if not os.path.exists(local_file):
             logging.error("STATUS.txt not found")
             return False
@@ -719,7 +719,7 @@ def check_framing_required(driver, wait, case_data):
         if 'framing' in txt and 'charge' in txt:
             logging.info("FRAMING REQUIRED - Logging to framing errors")
             try:
-                with open(os.path.expanduser("~/Documents/framing_errors.txt"), 'a', encoding='utf-8') as f:
+                with open("framing_errors.txt", 'a', encoding='utf-8') as f:
                     f.write(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\t{case_data}\n")
             except Exception as e:
                 log_error("FRAMING_LOG", f"Failed: {e}", e)
@@ -1188,7 +1188,7 @@ def process_single_case(browser_mgr, case_data):
         return "ERROR"
 
 def write_status_file(session_start_time, session_cases):
-    sf = os.path.expanduser("~/GoogleDrive/STATUS.txt")
+    sf = "STATUS.txt"
     try:
         with open(TO_BE_FILLED, 'r', encoding='utf-8') as f:
             remaining = len([l for l in f.readlines()[1:] if l.strip()])
