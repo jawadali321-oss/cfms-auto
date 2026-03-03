@@ -240,6 +240,9 @@ class BrowserManager:
                 
                 from selenium.webdriver.chrome.service import Service
                 service = Service("/usr/bin/chromedriver")
+                from webdriver_manager.chrome import ChromeDriverManager
+                from selenium.webdriver.chrome.service import Service
+                service = Service(ChromeDriverManager().install())
                 self.driver = webdriver.Chrome(service=service, options=opts)
                 self.wait = WebDriverWait(self.driver, 20)
                 self.driver.get("https://cfms.prosecution.punjab.gov.pk/#/")
